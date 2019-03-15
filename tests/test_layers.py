@@ -4,7 +4,7 @@ import torch.nn
 
 class Testlayers(unittest.TestCase):
 
-    def utest_embedding_matrix(self):
+    def test_embedding_matrix(self):
 
         input = torch.LongTensor(1, 10).random_(0, 10)
         print(input)
@@ -13,7 +13,7 @@ class Testlayers(unittest.TestCase):
         output = emb(input)
         print(output)
 
-    def utest_nn_dropout(self):
+    def test_nn_dropout(self):
 
         input = torch.randn(5, 10)
         dropout = torch.nn.Dropout(p=0.3)
@@ -42,7 +42,8 @@ class Testlayers(unittest.TestCase):
             print(" max: ", output.max(), "\n min: ", output.min())
             print(" Non zero`s elements:", torch.nonzero(output).size(0), "/", output.nelement())
             print(" Dropout pred: ", 1 - torch.nonzero(output).size(0) / output.nelement())
-        print("output shape: ", output.size())
+        print("output shape: ", output.shape)
+
 
 
 if __name__ == '__main__':
