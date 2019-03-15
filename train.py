@@ -12,6 +12,8 @@ from torch.utils.data import DataLoader
 
 from fp16_optimizer import FP16_Optimizer
 
+from tensorboardX import SummaryWriter
+
 from model import Tacotron2
 from data_utils import TextMelLoader, TextMelCollate
 from loss_function import Tacotron2Loss
@@ -184,6 +186,8 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
 
     train_loader, valset, collate_fn = prepare_dataloaders(hparams)
 
+    writer = SummaryWriter('Train/Loss')
+
     # Load checkpoint if one exists
     iteration = 0
     epoch_offset = 0
@@ -245,6 +249,8 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
                         output_directory, "checkpoint_{}".format(iteration))
                     save_checkpoint(model, optimizer, learning_rate, iteration,
                                     checkpoint_path)
+
+            writer.add_scalar('Train/Loss', loss)
 
             iteration += 1
 
